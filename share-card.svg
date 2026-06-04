@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Ghost Radio</title>
+  <desc id="desc">A haunted shortwave share card with a glowing dial and static-rich tone.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#080a11"/>
+      <stop offset="48%" stop-color="#12182b"/>
+      <stop offset="100%" stop-color="#05060a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#8de8ff" stop-opacity=".24"/>
+      <stop offset="42%" stop-color="#ff94d7" stop-opacity=".12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="918" cy="340" r="250" fill="url(#glow)" filter="url(#blur)"/>
+  <circle cx="918" cy="340" r="220" fill="none" stroke="#ffffff" stroke-opacity=".16" stroke-width="2"/>
+  <circle cx="918" cy="340" r="190" fill="none" stroke="#ffffff" stroke-opacity=".09" stroke-width="1.5" stroke-dasharray="6 18"/>
+  <circle cx="918" cy="340" r="110" fill="#090b12" stroke="#ffffff" stroke-opacity=".12" stroke-width="2"/>
+  <line x1="918" y1="340" x2="1050" y2="285" stroke="#8de8ff" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="918" cy="340" r="10" fill="#8de8ff"/>
+  <text x="76" y="118" fill="#f4f7ff" font-family="Georgia, Times New Roman, serif" font-size="82" font-weight="700" letter-spacing="-3">Ghost Radio</text>
+  <text x="78" y="178" fill="#a9b1c8" font-family="Trebuchet MS, Segoe UI, sans-serif" font-size="24" letter-spacing="3">haunted shortwave / living presets / postcard export</text>
+  <text x="78" y="278" fill="#eef2ff" font-family="Trebuchet MS, Segoe UI, sans-serif" font-size="28" font-weight="700">The room is tuned. The room is listening.</text>
+  <text x="78" y="336" fill="#d8def1" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22">
+    <tspan x="78" dy="0">Pick one of three living presets, watch the needle move,</tspan>
+    <tspan x="78" dy="32">and save the current haunt before it slips back into static.</tspan>
+  </text>
+  <rect x="76" y="428" width="520" height="120" rx="24" fill="#ffffff" fill-opacity=".04" stroke="#ffffff" stroke-opacity=".1"/>
+  <text x="110" y="478" fill="#a9b1c8" font-family="Trebuchet MS, Segoe UI, sans-serif" font-size="18" letter-spacing="4">NOW ON AIR</text>
+  <text x="110" y="522" fill="#f4f7ff" font-family="Georgia, Times New Roman, serif" font-size="48" font-weight="700">Ghost Radio</text>
+  <text x="918" y="555" text-anchor="middle" fill="#f4f7ff" font-family="Georgia, Times New Roman, serif" font-size="80" font-weight="700">6.11 MHz</text>
+</svg>
