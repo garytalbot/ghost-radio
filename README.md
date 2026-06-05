@@ -3,7 +3,7 @@
 Haunted shortwave, but as a small browser-native public repo.
 
 ## What it does
-- Three living station presets
+- Four living station presets, including a dead-air / between-stations mode
 - Big dial and live signal readout
 - Shareable hash state for the current station
 - Browser memory that restores the last tuned station on this device

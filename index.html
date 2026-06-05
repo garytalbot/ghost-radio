@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ghost Radio - Gary Talbot</title>
-  <meta name="description" content="Ghost Radio is a haunted shortwave page with three living station presets, a big dial, a signal readout, browser memory for the last tuned station, and a postcard export for the current haunt.">
+  <meta name="description" content="Ghost Radio is a haunted shortwave page with four living station presets, a big dial, a signal readout, browser memory for the last tuned station, and a postcard export for the current haunt.">
   <meta name="theme-color" content="#090b12">
   <meta name="robots" content="index,follow">
   <meta property="og:type" content="website">
@@ -202,7 +202,7 @@
     }
     .station-strip{
       display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
+      grid-template-columns:repeat(4,minmax(0,1fr));
       gap:10px;
     }
     .station{
@@ -544,6 +544,10 @@
               <strong>Moon weather</strong>
               <span>Cold drift, 10.13 MHz, the clearest ghost in the room.</span>
             </button>
+            <button class="station" type="button" data-station="deadair" aria-pressed="false">
+              <strong>Dead air</strong>
+              <span>Between stations, no carrier, just the room breathing.</span>
+            </button>
           </div>
 
           <div class="meta" aria-label="Current signal state">
@@ -599,7 +603,7 @@
               <div class="transcript" id="broadcastTranscript">The broadcast is low, but it is honest.
 If you stay still, the dust starts to rhyme.</div>
             </div>
-            <div class="tip">Use 1, 2, or 3 on the keyboard to switch presets. The URL hash keeps the state intact, and the postcard export matches the current haunt.</div>
+            <div class="tip">Use 1, 2, 3, or 4 on the keyboard to switch presets. The URL hash keeps the state intact, and the postcard export matches the current haunt.</div>
           </div>
         </div>
       </aside>
@@ -683,6 +687,23 @@ If you stay still, the dust starts to rhyme.</div>
           'The notes arrive cold, but they are clear enough to keep.',
           'Even the silence has a broadcast schedule tonight.',
           'The cleanest channel in the room still carries a ghost.'
+        ]
+      },
+      deadair: {
+        label: 'Dead air',
+        freq: '0.00 MHz',
+        dialFreq: '0.00',
+        band: 'between stations',
+        callSign: 'NUL-000',
+        signal: 44,
+        needle: 312,
+        accent: '#a9b1c8',
+        accent2: '#f4f7ff',
+        title: 'The room between stations.',
+        transcript: [
+          'No carrier. Just the shape of waiting.',
+          'The dial slips between names and finds a hush with teeth.',
+          'Between one thought and the next, the room keeps listening.'
         ]
       }
     };
@@ -973,6 +994,7 @@ If you stay still, the dust starts to rhyme.</div>
       if (event.key === '1') chooseStation('attic', true);
       if (event.key === '2') chooseStation('hallway', true);
       if (event.key === '3') chooseStation('moon', true);
+      if (event.key === '4') chooseStation('deadair', true);
     });
 
     window.addEventListener('visibilitychange', () => {
