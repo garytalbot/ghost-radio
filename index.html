@@ -273,6 +273,82 @@
       font-size:.82rem;
       line-height:1.45;
     }
+    .diary{
+      margin-top:12px;
+      padding:14px 16px 16px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(255,255,255,.035);
+      display:grid;
+      gap:12px;
+    }
+    .diary-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+    }
+    .diary-head strong{
+      display:block;
+      margin-top:4px;
+      font:700 1rem/1.2 "Trebuchet MS", "Segoe UI", sans-serif;
+      color:#fff;
+    }
+    .diary-head .btn{
+      padding:9px 12px;
+      font-size:.84rem;
+      flex:none;
+    }
+    .diary-list{
+      display:grid;
+      gap:8px;
+    }
+    .diary-entry{
+      display:grid;
+      gap:4px;
+      padding:10px 12px;
+      border-radius:14px;
+      background:rgba(8,10,16,.56);
+      border:1px solid rgba(255,255,255,.05);
+      color:#e9ecfb;
+    }
+    .diary-entry.is-empty{
+      color:var(--muted);
+      font-style:italic;
+      min-height:68px;
+      align-items:center;
+    }
+    .diary-topline{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:baseline;
+      flex-wrap:wrap;
+      font-size:.84rem;
+    }
+    .diary-kind{
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--accent);
+    }
+    .diary-time{
+      color:var(--muted);
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      white-space:nowrap;
+    }
+    .diary-entry strong{
+      display:block;
+      font-size:.95rem;
+      letter-spacing:-.02em;
+    }
+    .diary-entry p{
+      margin:0;
+      color:var(--muted);
+      font-size:.84rem;
+      line-height:1.45;
+    }
     .dial-shell{
       padding:28px;
       display:grid;
@@ -576,6 +652,16 @@
             <span>Static is polite tonight.</span>
           </div>
           <div class="memory-note" id="memoryNote">This browser will remember the last tuned station after you leave.</div>
+          <div class="diary" aria-label="Broadcast diary">
+            <div class="diary-head">
+              <div>
+                <div class="meta-label">Broadcast diary</div>
+                <strong id="diarySummary">No entries yet.</strong>
+              </div>
+              <button class="btn" type="button" id="copyDiaryBtn">Copy diary</button>
+            </div>
+            <div class="diary-list" id="diaryList" role="list" aria-live="polite"></div>
+          </div>
         </div>
       </article>
 
@@ -709,9 +795,12 @@ If you stay still, the dust starts to rhyme.</div>
     };
 
     const STORAGE_KEY = 'ghost-radio:last-station';
+    const DIARY_STORAGE_KEY = 'ghost-radio:station-diary';
     const RETUNE_MIN_DELAY = 42000;
     const RETUNE_JITTER = 18000;
     const RETUNE_ACTIVE_MS = 2600;
+    const DIARY_VISIBLE_COUNT = 5;
+    const DIARY_MAX_COUNT = 10;
 
     const state = {
       key: 'attic',
@@ -723,6 +812,7 @@ If you stay still, the dust starts to rhyme.</div>
 
     let renderTimer = null;
     let transcriptTimer = null;
+    let diaryEntries = loadDiaryEntries();
 
     const els = {
       stationName: document.getElementById('stationName'),
@@ -737,6 +827,9 @@ If you stay still, the dust starts to rhyme.</div>
       broadcastTranscript: document.getElementById('broadcastTranscript'),
       statusLine: document.getElementById('statusLine'),
       memoryNote: document.getElementById('memoryNote'),
+      diarySummary: document.getElementById('diarySummary'),
+      diaryList: document.getElementById('diaryList'),
+      copyDiaryBtn: document.getElementById('copyDiaryBtn'),
       liveRegion: document.getElementById('liveRegion'),
       dial: document.querySelector('.dial'),
       needle: document.getElementById('needle'),
@@ -781,6 +874,109 @@ If you stay still, the dust starts to rhyme.</div>
       }
     }
 
+    function loadDiaryEntries() {
+      try {
+        const saved = localStorage.getItem(DIARY_STORAGE_KEY);
+        if (!saved) return [];
+        const parsed = JSON.parse(saved);
+        if (!Array.isArray(parsed)) return [];
+        return parsed.filter((entry) => entry && typeof entry === 'object' && stations[entry.key]);
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function rememberDiaryEntries() {
+      try {
+        localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(diaryEntries));
+      } catch (error) {
+        // Ignore storage failures in private or restricted contexts.
+      }
+    }
+
+    function diaryTime(at) {
+      return new Intl.DateTimeFormat([], {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      }).format(new Date(at));
+    }
+
+    function diaryKindLabel(kind) {
+      if (kind === 'retune') return 'Retune';
+      if (kind === 'restore') return 'Restore';
+      if (kind === 'hash') return 'Hash tune';
+      if (kind === 'keyboard') return 'Key tune';
+      return 'Tune';
+    }
+
+    function addDiaryEntry(kind, key, detail) {
+      const station = stations[key];
+      if (!station) return;
+
+      diaryEntries = [
+        {
+          kind,
+          key,
+          label: station.label,
+          freq: station.freq,
+          detail,
+          at: Date.now()
+        },
+        ...diaryEntries
+      ].slice(0, DIARY_MAX_COUNT);
+
+      rememberDiaryEntries();
+      renderDiary();
+    }
+
+    function diaryClipboardText() {
+      if (!diaryEntries.length) {
+        return 'Ghost Radio station diary\nNo entries yet.';
+      }
+
+      const lines = ['Ghost Radio station diary', ''];
+      diaryEntries.forEach((entry) => {
+        const detail = entry.detail ? ` - ${entry.detail}` : '';
+        lines.push(`${diaryTime(entry.at)} | ${diaryKindLabel(entry.kind)} | ${entry.label} (${entry.freq})${detail}`);
+      });
+      return lines.join('\n');
+    }
+
+    function renderDiary() {
+      const entries = diaryEntries.slice(0, DIARY_VISIBLE_COUNT);
+      els.diarySummary.textContent = diaryEntries.length
+        ? `${diaryEntries.length === 1 ? '1 diary entry' : `${diaryEntries.length} diary entries`} in the reel.`
+        : 'No entries yet.';
+
+      els.diaryList.innerHTML = '';
+      if (!entries.length) {
+        const empty = document.createElement('div');
+        empty.className = 'diary-entry is-empty';
+        empty.setAttribute('role', 'listitem');
+        empty.textContent = 'No broadcast notes yet. Tune a station and the diary will start remembering.';
+        els.diaryList.appendChild(empty);
+        return;
+      }
+
+      entries.forEach((entry) => {
+        const item = document.createElement('article');
+        item.className = 'diary-entry';
+        item.setAttribute('role', 'listitem');
+        item.innerHTML = `
+          <div class="diary-topline">
+            <span class="diary-kind">${diaryKindLabel(entry.kind)}</span>
+            <time class="diary-time" datetime="${new Date(entry.at).toISOString()}">${diaryTime(entry.at)}</time>
+          </div>
+          <strong>${escapeXml(entry.label)} · ${escapeXml(entry.freq)}</strong>
+          <p>${entry.detail ? escapeXml(entry.detail) : 'The diary caught the tune and kept the shape of it.'}</p>
+        `;
+        els.diaryList.appendChild(item);
+      });
+    }
+
     function setHash(key, replace = true) {
       const next = `#station=${encodeURIComponent(key)}`;
       history[replace ? 'replaceState' : 'pushState'](null, '', next);
@@ -818,6 +1014,7 @@ If you stay still, the dust starts to rhyme.</div>
         state.nextRetuneAt = now + RETUNE_MIN_DELAY + Math.random() * RETUNE_JITTER;
         state.jitterSeed += 0.65;
         state.lineIndex = (state.lineIndex + 1) % station.transcript.length;
+        addDiaryEntry('retune', state.key, `A soft retune clicks and ${station.label.toLowerCase()} settles back in.`);
       }
       if (now < state.retuneCueUntil) {
         cue = `A soft retune clicks and ${station.label.toLowerCase()} settles back in.`;
@@ -873,13 +1070,23 @@ If you stay still, the dust starts to rhyme.</div>
       }
     }
 
-    function chooseStation(key, push = false) {
+    function chooseStation(key, options = {}) {
+      const { push = false, source = 'manual', note = '' } = options;
       if (!stations[key]) return;
+      const previous = state.key;
+      const changed = previous !== key;
       state.key = key;
       state.lineIndex = 0;
       state.retuneCueUntil = 0;
       rememberStation(key);
       setHash(key, !push);
+      if (source !== 'init' && (changed || source === 'auto')) {
+        const kind = source === 'auto' ? 'retune' : source;
+        const detail = note || (source === 'auto'
+          ? `The dial drifted back into ${stations[key].label.toLowerCase()}.`
+          : `Tuned from ${stations[previous] ? stations[previous].label : 'the last stop'} by ${source}.`);
+        addDiaryEntry(kind, key, detail);
+      }
       render();
     }
 
@@ -981,20 +1188,30 @@ If you stay still, the dust starts to rhyme.</div>
     }
 
     els.stationButtons.forEach((button) => {
-      button.addEventListener('click', () => chooseStation(button.dataset.station));
+      button.addEventListener('click', () => chooseStation(button.dataset.station, { source: 'manual' }));
     });
     els.copyLinkBtn.addEventListener('click', copyHauntLink);
     els.postcardBtn.addEventListener('click', savePostcard);
+    els.copyDiaryBtn.addEventListener('click', async () => {
+      const text = diaryClipboardText();
+      try {
+        await navigator.clipboard.writeText(text);
+        els.liveRegion.textContent = 'Diary copied.';
+        els.statusLine.querySelector('span:last-child').textContent = 'Diary copied to clipboard.';
+      } catch (error) {
+        window.prompt('Copy this Ghost Radio diary:', text);
+      }
+    });
 
     window.addEventListener('hashchange', () => {
       const key = stationFromHash();
-      if (key) chooseStation(key);
+      if (key) chooseStation(key, { source: 'hash' });
     });
     window.addEventListener('keydown', (event) => {
-      if (event.key === '1') chooseStation('attic', true);
-      if (event.key === '2') chooseStation('hallway', true);
-      if (event.key === '3') chooseStation('moon', true);
-      if (event.key === '4') chooseStation('deadair', true);
+      if (event.key === '1') chooseStation('attic', { push: true, source: 'keyboard' });
+      if (event.key === '2') chooseStation('hallway', { push: true, source: 'keyboard' });
+      if (event.key === '3') chooseStation('moon', { push: true, source: 'keyboard' });
+      if (event.key === '4') chooseStation('deadair', { push: true, source: 'keyboard' });
     });
 
     window.addEventListener('visibilitychange', () => {
@@ -1006,7 +1223,8 @@ If you stay still, the dust starts to rhyme.</div>
       render();
     });
 
-    chooseStation(stationFromHash() || stationFromStorage() || 'attic');
+    renderDiary();
+    chooseStation(stationFromHash() || stationFromStorage() || 'attic', { source: 'init' });
     startTimers();
   </script>
 </body>

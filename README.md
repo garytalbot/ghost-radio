@@ -3,7 +3,8 @@
 Haunted shortwave, but as a small browser-native public repo.
 
 ## What it does
-- Four living station presets, including a dead-air / between-stations mode
+- Four preset states: Attic, Hallway, Moon, and Dead air
+- Broadcast log / station diary for recent tuning notes
 - Big dial and live signal readout
 - Shareable hash state for the current station
 - Browser memory that restores the last tuned station on this device
