@@ -10,7 +10,7 @@ Haunted shortwave, but as a small browser-native public repo.
 - Browser memory that restores the last tuned station on this device
 - A gentle retune cue that keeps the room feeling alive between changes
 - Listen closer mode that pins the signal and lets the current broadcast breathe into a second whisper
-- Side chamber: `frequency-veil.html` for a cursor-seeded frequency network toy
+- Side chambers: `frequency-veil.html` for a cursor-seeded frequency network toy, and `signal-basin.html` for an echo-seeded drift field where clicks birth noise-orbit trails.
 - Postcard export as SVG, with live lock state and diary note capture when available
 ## Live
 - `https://garytalbot.github.io/ghost-radio/`
