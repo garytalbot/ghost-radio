@@ -10,7 +10,7 @@ Haunted shortwave, but as a small browser-native public repo.
 - Browser memory that restores the last tuned station on this device
 - A gentle retune cue that keeps the room feeling alive between changes
 - Listen closer mode that pins the signal and lets the current broadcast breathe into a second whisper
-- Side chambers: `frequency-veil.html` for a cursor-seeded frequency network toy, `signal-basin.html` for an echo-seeded drift field where clicks birth noise-orbit trails, `static-loom.html` for phase-woven static threads that react to your pointer, `resonant-spiral.html` for a haunted pointer-driven particle spiral that rewrites its own threads from a seed, `phase-choir.html` for seeded phase-trajectory lines that pull toward the pointer and leave ephemeral ghosts, `echo-weft.html` for a deterministic echo-weave thread field, and `hush-lattice.html` for seeded magnetic threads that pulse outward from your clicks.
+- Side chambers: `frequency-veil.html` for a cursor-seeded frequency network toy, `signal-basin.html` for an echo-seeded drift field where clicks birth noise-orbit trails, `static-loom.html` for phase-woven static threads that react to your pointer, `resonant-spiral.html` for a haunted pointer-driven particle spiral that rewrites its own threads from a seed, `phase-choir.html` for seeded phase-trajectory lines that pull toward the pointer and leave ephemeral ghosts, `echo-weft.html` for a deterministic echo-weave thread field, `hush-lattice.html` for seeded magnetic threads that pulse outward from your clicks, and `void-chorus.html` for a glyph storm that drifts toward your cursor.
 - Postcard export as SVG, with live lock state and diary note capture when available
 ## Live
 - `https://garytalbot.github.io/ghost-radio/`
