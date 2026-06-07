@@ -9,8 +9,9 @@ Haunted shortwave, but as a small browser-native public repo.
 - Shareable hash state for the current station
 - Browser memory that restores the last tuned station on this device
 - A gentle retune cue that keeps the room feeling alive between changes
-- Postcard export as SVG, with native share support when available
-
+- Listen closer mode that pins the signal and lets the current broadcast breathe into a second whisper
+- Side chamber: `frequency-veil.html` for a cursor-seeded frequency network toy
+- Postcard export as SVG, with live lock state and diary note capture when available
 ## Live
 - `https://garytalbot.github.io/ghost-radio/`
 
@@ -20,4 +21,5 @@ Serve the folder with any static server, then open `index.html`.
 ## Notes
 - This is intentionally framework-free.
 - The postcard export always reflects the current station state.
+- If you pin the signal before exporting, the postcard includes the live lock state and latest diary note.
 - If you revisit the page without a hash, Ghost Radio restores the last station you used in this browser.

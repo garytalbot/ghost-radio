@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ghost Radio - Gary Talbot</title>
-  <meta name="description" content="Ghost Radio is a haunted shortwave page with four living station presets, a big dial, a signal readout, browser memory for the last tuned station, and a postcard export for the current haunt.">
+  <meta name="description" content="Ghost Radio is a haunted shortwave page with four living station presets, a big dial, a signal readout, browser memory for the last tuned station, listen closer mode, and a postcard export for the current haunt.">
   <meta name="theme-color" content="#090b12">
   <meta name="robots" content="index,follow">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Ghost Radio - Gary Talbot">
-  <meta property="og:description" content="A haunted shortwave page with living presets, browser memory, a big dial, and a postcard export that keeps the current haunt intact.">
+  <meta property="og:description" content="A haunted shortwave page with living presets, browser memory, a big dial, listen closer mode, and a postcard export that keeps the current haunt intact.">
   <meta property="og:url" content="https://garytalbot.github.io/ghost-radio/">
   <meta property="og:image" content="https://garytalbot.github.io/ghost-radio/share-card.svg">
   <meta property="og:image:alt" content="Ghost Radio share card">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Ghost Radio - Gary Talbot">
-  <meta name="twitter:description" content="A haunted shortwave page with living presets, browser memory, a big dial, and a postcard export that keeps the current haunt intact.">
+  <meta name="twitter:description" content="A haunted shortwave page with living presets, browser memory, a big dial, listen closer mode, and a postcard export that keeps the current haunt intact.">
   <meta name="twitter:image" content="https://garytalbot.github.io/ghost-radio/share-card.svg">
   <link rel="canonical" href="https://garytalbot.github.io/ghost-radio/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -246,6 +246,11 @@
       gap:10px;
       align-items:center;
     }
+    .btn.is-active{
+      background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 30%, transparent), color-mix(in srgb, var(--accent-2) 22%, transparent));
+      border-color:color-mix(in srgb, var(--accent) 44%, white 56%);
+      box-shadow:var(--glow);
+    }
     .status{
       display:flex;
       align-items:center;
@@ -466,6 +471,28 @@
       display:grid;
       gap:14px;
     }
+    .signal-mode{
+      display:inline-flex;
+      width:fit-content;
+      gap:8px;
+      align-items:center;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.05);
+      color:#eef2ff;
+      font-size:.72rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    .signal-mode::before{
+      content:"";
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 12px color-mix(in srgb, var(--accent) 75%, white 25%);
+    }
     .signal-head{
       display:flex;
       justify-content:space-between;
@@ -511,16 +538,38 @@
       display:grid;
       gap:8px;
     }
+    .broadcast.is-locked{
+      background:linear-gradient(180deg, rgba(141,232,255,.08), rgba(255,255,255,.03));
+      border-color:color-mix(in srgb, var(--accent) 26%, white 74%);
+      box-shadow:0 0 0 1px rgba(255,255,255,.03) inset, 0 0 30px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
     .broadcast .eyebrow{color:var(--muted)}
     .broadcast p{
       margin:0;
       font:600 1rem/1.55 "Trebuchet MS", "Segoe UI", sans-serif;
       color:#eef2ff;
     }
+    .broadcast .whisper{
+      color:var(--muted);
+      font-size:.84rem;
+      line-height:1.5;
+    }
     .transcript{
       color:#d9def2;
       white-space:pre-wrap;
       font:14px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    .transcript.is-locked{
+      color:#f0f5ff;
+    }
+    .dial.is-locked{
+      box-shadow:0 0 0 1px rgba(255,255,255,.04) inset, 0 24px 70px rgba(0,0,0,.34), 0 0 72px color-mix(in srgb, var(--accent) 24%, transparent);
+    }
+    .dial.is-locked .needle{
+      background:linear-gradient(90deg, color-mix(in srgb, var(--accent) 92%, white 8%), transparent 90%);
+    }
+    .dial.is-locked .dial-core{
+      box-shadow:0 0 0 1px rgba(255,255,255,.03) inset, inset 0 0 36px rgba(255,255,255,.06);
     }
     .grid{
       display:grid;
@@ -600,10 +649,10 @@
     <section class="layout" aria-label="Ghost Radio">
       <article class="card hero">
         <div>
-          <div class="tag">haunted shortwave / three living presets / postcard export</div>
+          <div class="tag">haunted shortwave / four living presets / postcard export</div>
           <h1>Ghost Radio</h1>
           <p class="lead">A browser-native shortwave room for late-night tuning, strange frequencies, and a page that behaves like it is listening back.</p>
-          <p class="sub">Pick one of the three living presets, watch the dial breathe, then save the current haunt as a postcard or copy the share link if you want the exact state to survive the jump.</p>
+          <p class="sub">Pick one of the four living presets, watch the dial breathe, then save the current haunt as a postcard or copy the share link if you want the exact state to survive the jump.</p>
         </div>
 
         <div class="controls">
@@ -643,7 +692,9 @@
 
           <div class="action-row">
             <button class="btn primary" type="button" id="copyLinkBtn">Copy haunt link</button>
+            <button class="btn" type="button" id="listenBtn" aria-pressed="false">Listen closer</button>
             <button class="btn" type="button" id="postcardBtn">Save postcard</button>
+            <a class="btn" href="./frequency-veil.html" target="_blank" rel="noopener noreferrer">Frequency Veil</a>
             <a class="btn" href="./share-card.svg" target="_blank" rel="noopener noreferrer">Open card art</a>
           </div>
 
@@ -678,18 +729,20 @@
           </div>
 
           <div class="signal-block">
+            <div class="signal-mode" id="signalMode">Drifting signal</div>
             <div class="signal-head">
               <span>Signal readout</span>
               <strong id="signalPct">62%</strong>
             </div>
             <div class="signal-meter" id="meter" aria-hidden="true"></div>
-            <div class="broadcast">
+            <div class="broadcast" id="broadcastPanel">
               <div class="eyebrow">Now broadcasting</div>
               <p id="broadcastTitle">The room above the room.</p>
               <div class="transcript" id="broadcastTranscript">The broadcast is low, but it is honest.
 If you stay still, the dust starts to rhyme.</div>
+              <div class="whisper" id="broadcastWhisper">Listening closer will pin the room long enough to hear the seam between lines.</div>
             </div>
-            <div class="tip">Use 1, 2, 3, or 4 on the keyboard to switch presets. The URL hash keeps the state intact, and the postcard export matches the current haunt.</div>
+            <div class="tip">Use 1, 2, 3, or 4 on the keyboard to switch presets. Press L or Space to pin the signal, then save the living state as a postcard.</div>
           </div>
         </div>
       </aside>
@@ -807,7 +860,10 @@ If you stay still, the dust starts to rhyme.</div>
       lineIndex: 0,
       jitterSeed: Math.random() * Math.PI * 2,
       nextRetuneAt: Date.now() + 26000 + Math.random() * 14000,
-      retuneCueUntil: 0
+      retuneCueUntil: 0,
+      locked: false,
+      lockedSince: 0,
+      lockSnapshot: null
     };
 
     let renderTimer = null;
@@ -825,6 +881,9 @@ If you stay still, the dust starts to rhyme.</div>
       dialStation: document.getElementById('dialStation'),
       broadcastTitle: document.getElementById('broadcastTitle'),
       broadcastTranscript: document.getElementById('broadcastTranscript'),
+      broadcastWhisper: document.getElementById('broadcastWhisper'),
+      broadcastPanel: document.getElementById('broadcastPanel'),
+      signalMode: document.getElementById('signalMode'),
       statusLine: document.getElementById('statusLine'),
       memoryNote: document.getElementById('memoryNote'),
       diarySummary: document.getElementById('diarySummary'),
@@ -835,6 +894,7 @@ If you stay still, the dust starts to rhyme.</div>
       needle: document.getElementById('needle'),
       meter: document.getElementById('meter'),
       copyLinkBtn: document.getElementById('copyLinkBtn'),
+      listenBtn: document.getElementById('listenBtn'),
       postcardBtn: document.getElementById('postcardBtn'),
       stationButtons: Array.from(document.querySelectorAll('[data-station]'))
     };
@@ -909,7 +969,59 @@ If you stay still, the dust starts to rhyme.</div>
       if (kind === 'restore') return 'Restore';
       if (kind === 'hash') return 'Hash tune';
       if (kind === 'keyboard') return 'Key tune';
+      if (kind === 'lock') return 'Listen close';
+      if (kind === 'release') return 'Release';
       return 'Tune';
+    }
+
+    function latestDiaryEntry() {
+      return diaryEntries[0] || null;
+    }
+
+    function whisperForStation(station) {
+      const recent = latestDiaryEntry();
+      const phrases = [
+        `The signal stays pinned to ${station.label.toLowerCase()} long enough to hear the plaster breathe.`,
+        recent
+          ? `It keeps ${recent.label.toLowerCase()} in the room with it, like a note folded into the static.`
+          : 'It keeps the room folded around the carrier and refuses to forget the shape of the listening.',
+        `No one is speaking louder now. The signal is just close enough to become a second pulse.`
+      ];
+      const slot = Math.floor((Date.now() - state.lockedSince) / 2100) % phrases.length;
+      return phrases[slot];
+    }
+
+    function lockSignal(shouldLock, detail = '') {
+      const station = stations[state.key];
+      if (!station) return;
+
+      if (shouldLock) {
+        if (state.locked) return;
+        const wave = Math.sin((performance.now() / 900) + state.jitterSeed) * 3.2 + Math.cos((performance.now() / 2100) + state.jitterSeed * 0.7) * 1.6;
+        const signal = clamp(Math.round(station.signal + wave), 38, 98);
+        state.locked = true;
+        state.lockedSince = Date.now();
+        state.lockSnapshot = {
+          signal,
+          transcript: station.transcript[state.lineIndex % station.transcript.length],
+          title: station.title,
+          freq: station.freq
+        };
+        els.listenBtn.classList.add('is-active');
+        els.listenBtn.setAttribute('aria-pressed', 'true');
+        addDiaryEntry('lock', state.key, detail || `Pinned ${station.label.toLowerCase()} long enough to hear the seam in the carrier.`);
+        render();
+        return;
+      }
+
+      if (!state.locked) return;
+      state.locked = false;
+      state.lockedSince = 0;
+      state.lockSnapshot = null;
+      els.listenBtn.classList.remove('is-active');
+      els.listenBtn.setAttribute('aria-pressed', 'false');
+      addDiaryEntry('release', state.key, detail || `Released ${station.label.toLowerCase()} back into its drift.`);
+      render();
     }
 
     function addDiaryEntry(kind, key, detail) {
@@ -988,7 +1100,13 @@ If you stay still, the dust starts to rhyme.</div>
     }
 
     function updateStatus(signal, station, cue = '') {
-      const statuses = [
+      const statuses = state.locked ? [
+        'The signal is pinned. The room is leaning in.',
+        'A close listen makes the static remember itself.',
+        'The carrier is holding its shape.',
+        'Something in the walls is keeping time.',
+        'The ghost is answering at arm’s length.'
+      ] : [
         'Static is polite tonight.',
         'The room is listening back.',
         'A little more signal. A little less room tone.',
@@ -997,27 +1115,35 @@ If you stay still, the dust starts to rhyme.</div>
       ];
       const slot = clamp(Math.floor((signal - 40) / 12), 0, statuses.length - 1);
       els.statusLine.classList.toggle('is-retuning', Boolean(cue));
+      els.broadcastPanel.classList.toggle('is-locked', state.locked);
       els.statusLine.querySelector('span:last-child').textContent = cue || statuses[slot];
-      els.liveRegion.textContent = `${station.label} at ${station.freq} with ${signal}% signal.`;
+      els.liveRegion.textContent = `${station.label} at ${station.freq} with ${signal}% signal${state.locked ? ', locked for close listening.' : '.'}`;
     }
 
     function render() {
       const station = stations[state.key];
       const wave = Math.sin((performance.now() / 900) + state.jitterSeed) * 3.2 + Math.cos((performance.now() / 2100) + state.jitterSeed * 0.7) * 1.6;
-      const signal = clamp(Math.round(station.signal + wave), 38, 98);
-      const transcript = station.transcript[state.lineIndex % station.transcript.length];
+      const liveSignal = clamp(Math.round(station.signal + wave), 38, 98);
+      const lockedSignal = state.lockSnapshot ? state.lockSnapshot.signal : liveSignal;
+      const signal = state.locked ? lockedSignal : liveSignal;
+      const transcript = state.locked && state.lockSnapshot
+        ? state.lockSnapshot.transcript
+        : station.transcript[state.lineIndex % station.transcript.length];
+      const whisper = state.locked ? whisperForStation(station) : '';
       const now = Date.now();
       let cue = '';
 
-      if (now >= state.nextRetuneAt) {
+      if (!state.locked && now >= state.nextRetuneAt) {
         state.retuneCueUntil = now + RETUNE_ACTIVE_MS;
         state.nextRetuneAt = now + RETUNE_MIN_DELAY + Math.random() * RETUNE_JITTER;
         state.jitterSeed += 0.65;
         state.lineIndex = (state.lineIndex + 1) % station.transcript.length;
         addDiaryEntry('retune', state.key, `A soft retune clicks and ${station.label.toLowerCase()} settles back in.`);
       }
-      if (now < state.retuneCueUntil) {
+      if (!state.locked && now < state.retuneCueUntil) {
         cue = `A soft retune clicks and ${station.label.toLowerCase()} settles back in.`;
+      } else if (state.locked) {
+        cue = `The signal is pinned in place and the room is listening close.`;
       }
 
       document.documentElement.style.setProperty('--accent', station.accent);
@@ -1027,6 +1153,7 @@ If you stay still, the dust starts to rhyme.</div>
       document.documentElement.style.setProperty('--signal-bars', `${Math.round(signal / 11)}`);
       els.dial.style.setProperty('--signal', `${signal}%`);
       els.dial.style.setProperty('--needle', `${station.needle + wave * 2.2}deg`);
+      els.dial.classList.toggle('is-locked', state.locked);
       els.stationName.textContent = station.label;
       els.frequencyLabel.textContent = station.freq;
       els.signalLabel.textContent = `${signal}%`;
@@ -1035,9 +1162,23 @@ If you stay still, the dust starts to rhyme.</div>
       els.dialFrequency.textContent = station.dialFreq;
       els.dialBand.textContent = station.band;
       els.dialStation.textContent = station.label;
-      els.broadcastTitle.textContent = station.title;
-      els.broadcastTranscript.textContent = transcript;
-      els.memoryNote.textContent = `Last tuned here: ${station.label}. The dial keeps that memory in this browser.`;
+      els.broadcastTitle.textContent = state.locked
+        ? `Listening close to ${station.label}.`
+        : station.title;
+      els.broadcastTranscript.textContent = state.locked
+        ? `${transcript}\n\n${whisper}`
+        : transcript;
+      els.broadcastWhisper.textContent = state.locked
+        ? `Locked on ${station.label.toLowerCase()} at ${station.freq}. ${whisper}`
+        : `Listen closer mode that pins the signal and lets the current broadcast breathe into a second whisper.`;
+      els.signalMode.textContent = state.locked ? 'Listen closer mode' : 'Drifting signal';
+      els.broadcastTranscript.classList.toggle('is-locked', state.locked);
+      els.listenBtn.textContent = state.locked ? 'Release signal' : 'Listen closer';
+      els.listenBtn.classList.toggle('is-active', state.locked);
+      els.listenBtn.setAttribute('aria-pressed', String(state.locked));
+      els.memoryNote.textContent = state.locked
+        ? `Pinned here: ${station.label}. The browser is holding the exact breath of this broadcast.`
+        : `Last tuned here: ${station.label}. The dial keeps that memory in this browser.`;
       updateBars(signal);
       updateStatus(signal, station, cue);
 
@@ -1054,7 +1195,9 @@ If you stay still, the dust starts to rhyme.</div>
         render();
       }, 220);
       transcriptTimer = setInterval(() => {
-        state.lineIndex = (state.lineIndex + 1) % stations[state.key].transcript.length;
+        if (!state.locked) {
+          state.lineIndex = (state.lineIndex + 1) % stations[state.key].transcript.length;
+        }
         render();
       }, 3600);
     }
@@ -1075,6 +1218,9 @@ If you stay still, the dust starts to rhyme.</div>
       if (!stations[key]) return;
       const previous = state.key;
       const changed = previous !== key;
+      if (state.locked) {
+        lockSignal(false, `Released ${stations[previous].label.toLowerCase()} to tune ${stations[key].label.toLowerCase()}.`);
+      }
       state.key = key;
       state.lineIndex = 0;
       state.retuneCueUntil = 0;
@@ -1109,10 +1255,19 @@ If you stay still, the dust starts to rhyme.</div>
         .replace(/"/g, '&quot;');
     }
 
+    function truncateText(value, maxLength) {
+      const text = String(value);
+      if (text.length <= maxLength) return text;
+      return `${text.slice(0, Math.max(0, maxLength - 1)).trimEnd()}…`;
+    }
+
     function postcardSvg() {
       const station = stations[state.key];
       const signal = els.signalPct.textContent;
       const transcript = els.broadcastTranscript.textContent;
+      const mode = state.locked ? 'LISTEN CLOSE' : 'DRIFTING';
+      const whisper = els.broadcastWhisper.textContent;
+      const diary = latestDiaryEntry();
       const href = `${location.origin}${location.pathname}#station=${encodeURIComponent(state.key)}`;
       const dialColor = station.accent;
       const dialGlow = station.accent2;
@@ -1152,6 +1307,11 @@ If you stay still, the dust starts to rhyme.</div>
   <text x="118" y="604" fill="#a9b1c8" font-family="Trebuchet MS, Segoe UI, sans-serif" font-size="20" letter-spacing="4">CALL SIGN</text>
   <text x="118" y="648" fill="#ffffff" font-family="Georgia, Times New Roman, serif" font-size="58" font-weight="700" letter-spacing="-2">${escapeXml(station.callSign)}</text>
   <text x="118" y="690" fill="#a9b1c8" font-family="Trebuchet MS, Segoe UI, sans-serif" font-size="20">Share link: ${escapeXml(href)}</text>
+  <text x="740" y="156" fill="#a9b1c8" font-family="Trebuchet MS, Segoe UI, sans-serif" font-size="20" letter-spacing="4">LIVE STATE</text>
+  <text x="740" y="202" fill="#ffffff" font-family="Georgia, Times New Roman, serif" font-size="44" font-weight="700">${escapeXml(mode)}</text>
+  <text x="740" y="252" fill="#d8def1" font-family="Trebuchet MS, Segoe UI, sans-serif" font-size="22">${escapeXml(truncateText(whisper, 84))}</text>
+  <text x="740" y="330" fill="#a9b1c8" font-family="Trebuchet MS, Segoe UI, sans-serif" font-size="20" letter-spacing="4">LATEST NOTE</text>
+  <text x="740" y="376" fill="#eef2ff" font-family="Georgia, Times New Roman, serif" font-size="32" font-weight="700">${escapeXml(truncateText(diary ? diary.detail : 'The room is still listening.', 72))}</text>
   <text x="980" y="670" text-anchor="middle" fill="#ffffff" font-family="Georgia, Times New Roman, serif" font-size="88" font-weight="700">${escapeXml(station.dialFreq)}</text>
   <text x="980" y="720" text-anchor="middle" fill="#a9b1c8" font-family="Trebuchet MS, Segoe UI, sans-serif" font-size="22" letter-spacing="6">SHORTWAVE</text>
   <text x="980" y="286" text-anchor="middle" fill="#ffffff" font-family="Trebuchet MS, Segoe UI, sans-serif" font-size="22" letter-spacing="4">SIGNAL ${escapeXml(signal)}</text>
@@ -1164,7 +1324,7 @@ If you stay still, the dust starts to rhyme.</div>
       const filename = `ghost-radio-${state.key}.svg`;
       const file = new File([blob], filename, { type: 'image/svg+xml' });
       const title = `Ghost Radio - ${stations[state.key].label}`;
-      const text = `${stations[state.key].label} at ${stations[state.key].freq} on Ghost Radio`;
+      const text = `${stations[state.key].label} at ${stations[state.key].freq} on Ghost Radio${state.locked ? ' (listen close)' : ''}`;
 
       try {
         if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -1191,6 +1351,7 @@ If you stay still, the dust starts to rhyme.</div>
       button.addEventListener('click', () => chooseStation(button.dataset.station, { source: 'manual' }));
     });
     els.copyLinkBtn.addEventListener('click', copyHauntLink);
+    els.listenBtn.addEventListener('click', () => lockSignal(!state.locked));
     els.postcardBtn.addEventListener('click', savePostcard);
     els.copyDiaryBtn.addEventListener('click', async () => {
       const text = diaryClipboardText();
@@ -1212,6 +1373,10 @@ If you stay still, the dust starts to rhyme.</div>
       if (event.key === '2') chooseStation('hallway', { push: true, source: 'keyboard' });
       if (event.key === '3') chooseStation('moon', { push: true, source: 'keyboard' });
       if (event.key === '4') chooseStation('deadair', { push: true, source: 'keyboard' });
+      if (event.key === ' ' || event.key.toLowerCase() === 'l') {
+        event.preventDefault();
+        lockSignal(!state.locked, state.locked ? 'Signal released by keyboard.' : 'Pinned by keyboard to hear the seam.');
+      }
     });
 
     window.addEventListener('visibilitychange', () => {
