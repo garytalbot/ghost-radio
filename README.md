@@ -14,6 +14,7 @@ Haunted shortwave, but as a small browser-native public repo.
 
 - `wavelength-rift.html` (`Wavelength Rift`) — seeded pointer field with deterministic seed sharing, pause/rerandomize, pointer sparks, and save/copy actions
 - `echo-corridor.html` (`Echo Corridor`) — seeded corridor field with pointer-reactive trajectory bands, density/chaos/speed controls, save-frame, and copy-link sharing
+- `clock-hollow.html` (`Clock Hollow`) — pointer-clock chamber with seed persistence, turbulence control, draggable beacons, and PNG/share-link export
 - Postcard export as SVG, with live lock state and diary note capture when available
 ## Live
 - `https://garytalbot.github.io/ghost-radio/`
