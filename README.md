@@ -18,6 +18,7 @@ Haunted shortwave, but as a small browser-native public repo.
 - `ghost-thread.html` (`Ghost Thread`) — seeded pointer thread field with reseedable chaos/density controls, draggable thread seeding, copy-share links, and PNG export
 - `void-hinge.html` (`Void Hinge`) — seeded particle bridge field with pointer pressure, density/drift/chaos controls, pause/reseed, hash sharing, and frame export
 - `pulse-weft.html` (`Pulse Weft`) — deterministic thread-weaving chamber with density/drift/resonance controls, pointer pressure weaving, mode switching, and deterministic share/export controls
+- `quiet-bell.html` (`Quiet Bell`) — seeded orbital bell field with pointer distortion, density/drift/pulse controls, pause/resume, URL seed state, and PNG export
 - Postcard export as SVG, with live lock state and diary note capture when available
 
 ## Live
