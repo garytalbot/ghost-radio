@@ -22,6 +22,7 @@ Haunted shortwave, but as a small browser-native public repo.
 - `orbit-liturgy.html` (`Orbit Liturgy`) — seeded orbital ray ritual with pointer attractor, density/chaos/spin controls, pause/reseed, share-link, and frame export
 - `static-psalter.html` (`Static Psalm`) — pointer-reactive seeded static thread field with density/drift/pulse controls, reseed/pause/copy/save actions, and deterministic hash state
 - `lattice-murmur.html` (`Lattice Murmur`) — seeded resonator lattice with density/chaos/heat controls, pointer-triggered pulse injections, pause/reseed, share-link copy, and frame export
+- `inkline-chamber.html` (`Inkline Chamber`) — seeded trace-field with deterministic seed/state controls, pointer drag injection, density/twist/drift sliders, pause/reseed, share-link copy, and PNG export
 
 - Postcard export as SVG, with live lock state and diary note capture when available
 
