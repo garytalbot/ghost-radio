@@ -24,6 +24,7 @@ Haunted shortwave, but as a small browser-native public repo.
 - `lattice-murmur.html` (`Lattice Murmur`) — seeded resonator lattice with density/chaos/heat controls, pointer-triggered pulse injections, pause/reseed, share-link copy, and frame export
 - `inkline-chamber.html` (`Inkline Chamber`) — seeded trace-field with deterministic seed/state controls, pointer drag injection, density/twist/drift sliders, pause/reseed, share-link copy, and PNG export
 - `moon-cradle.html` (`Moon Cradle`) — seeded lunar particle cradle with density/drift/pulse controls, pointer-driven center drift, URL hash sharing, pause mode, and frame export
+- `umbra-rhythm.html` (`Umbra Rhythm`) — seeded thread field with pointer memory, hash state sharing, pause/reseed/copy/save actions, and haze/ drift controls
 
 - Postcard export as SVG, with live lock state and diary note capture when available
 
