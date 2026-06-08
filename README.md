@@ -19,6 +19,7 @@ Haunted shortwave, but as a small browser-native public repo.
 - `void-hinge.html` (`Void Hinge`) — seeded particle bridge field with pointer pressure, density/drift/chaos controls, pause/reseed, hash sharing, and frame export
 - `pulse-weft.html` (`Pulse Weft`) — deterministic thread-weaving chamber with density/drift/resonance controls, pointer pressure weaving, mode switching, and deterministic share/export controls
 - `quiet-bell.html` (`Quiet Bell`) — seeded orbital bell field with pointer distortion, density/drift/pulse controls, pause/resume, URL seed state, and PNG export
+- `rune-hollow.html` (`Rune Hollow`) — seeded pointer-hollow with deterministic hash seeding, reseed, pause/resume, density presets, link sharing, and save-frame output
 - `orbit-liturgy.html` (`Orbit Liturgy`) — seeded orbital ray ritual with pointer attractor, density/chaos/spin controls, pause/reseed, share-link, and frame export
 - `static-psalter.html` (`Static Psalm`) — pointer-reactive seeded static thread field with density/drift/pulse controls, reseed/pause/copy/save actions, and deterministic hash state
 - `lattice-murmur.html` (`Lattice Murmur`) — seeded resonator lattice with density/chaos/heat controls, pointer-triggered pulse injections, pause/reseed, share-link copy, and frame export
