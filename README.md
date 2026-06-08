@@ -25,6 +25,7 @@ Haunted shortwave, but as a small browser-native public repo.
 - `inkline-chamber.html` (`Inkline Chamber`) — seeded trace-field with deterministic seed/state controls, pointer drag injection, density/twist/drift sliders, pause/reseed, share-link copy, and PNG export
 - `moon-cradle.html` (`Moon Cradle`) — seeded lunar particle cradle with density/drift/pulse controls, pointer-driven center drift, URL hash sharing, pause mode, and frame export
 - `umbra-rhythm.html` (`Umbra Rhythm`) — seeded thread field with pointer memory, hash state sharing, pause/reseed/copy/save actions, and haze/ drift controls
+- `lumen-tide.html` (`Lumen Tide`) — seeded luminous node-field with pointer tides, density and drift controls, reseed via URL hash, pause/copy/save actions
 
 - Postcard export as SVG, with live lock state and diary note capture when available
 
