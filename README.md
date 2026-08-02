@@ -27,7 +27,7 @@ Haunted shortwave, but as a small browser-native public repo.
 - `moon-cradle.html` (`Moon Cradle`) — seeded lunar particle cradle with density/drift/pulse controls, pointer-driven center drift, URL hash sharing, pause mode, and frame export
 - `umbra-rhythm.html` (`Umbra Rhythm`) — seeded thread field with pointer memory, hash state sharing, pause/reseed/copy/save actions, and haze/ drift controls
 - `lumen-tide.html` (`Lumen Tide`) — seeded luminous node-field with pointer tides, density and drift controls, reseed via URL hash, pause/copy/save actions
-- `lumen-mosaic.html` (`Lumen Mosaic`) — seed-reactive point stitches with pointer-gated thread links, pause/reseed controls, URL seed/copy sharing, and still export capture
+- `lumen-oracle.html` (`Lumen Oracle`) — seed-reactive point lattice with pointer-gated thread links, pause/reseed controls, URL seed/copy sharing, and still export capture
 
 - Postcard export as SVG, with live lock state and diary note capture when available
 
